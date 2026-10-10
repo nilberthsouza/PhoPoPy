@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#101014">
+<title>PhoPoCopy</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- Camera stage -->
+  <div id="stage">
+    <video id="video" autoplay playsinline muted></video>
+    <img id="overlayImg" alt="" draggable="false">
+    <canvas id="captureCanvas" class="hidden"></canvas>
+
+    <div id="countdown" class="hidden"></div>
+    <div id="flash"></div>
+
+    <div id="cameraError" class="hidden">
+      <p>Não foi possível acessar a câmera.</p>
+      <p class="small" id="cameraErrorDetail"></p>
+      <button id="retryCameraBtn">Tentar novamente</button>
+    </div>
+  </div>
+
+  <!-- Top bar -->
+  <div id="topBar">
+    <button id="switchCameraBtn" class="iconBtn" title="Trocar câmera">⟲</button>
+    <div id="timerGroup" class="segmented">
+      <button class="timerBtn active" data-timer="0">0s</button>
+      <button class="timerBtn" data-timer="2">2s</button>
+      <button class="timerBtn" data-timer="5">5s</button>
+      <button class="timerBtn" data-timer="10">10s</button>
+    </div>
+    <button id="galleryBtn" class="iconBtn" title="Fotos salvas">🖼</button>
+  </div>
+
+  <!-- Overlay controls panel -->
+  <div id="overlayPanel">
+    <button id="loadOverlayBtn" class="pillBtn">Carregar imagem de referência</button>
+    <input type="file" id="overlayFileInput" accept="image/*" class="hidden">
+
+    <div id="samplesRow">
+      <span class="label">ou use um exemplo:</span>
+      <button class="sampleThumb" data-src="assets/samples/pose-standing.png" title="Exemplo: em pé">
+        <img src="assets/samples/pose-standing.png" alt="Exemplo de pose em pé">
+      </button>
+      <button class="sampleThumb" data-src="assets/samples/pose-hands-on-hips.png" title="Exemplo: mãos na cintura">
+        <img src="assets/samples/pose-hands-on-hips.png" alt="Exemplo de pose com mãos na cintura">
+      </button>
+      <button class="sampleThumb" data-src="assets/samples/pose-jump.png" title="Exemplo: pulando">
+        <img src="assets/samples/pose-jump.png" alt="Exemplo de pose pulando">
+      </button>
+    </div>
+
+    <div id="opacityRow" class="hidden">
+      <span class="label">Opacidade</span>
+      <input type="range" id="opacitySlider" min="0" max="100" value="45">
+      <span id="opacityValue">45%</span>
+      <button id="clearOverlayBtn" class="iconBtn small" title="Remover imagem">✕</button>
+    </div>
+
+    <div id="overlayFitRow" class="hidden">
+      <span class="label">Ajuste</span>
+      <div class="segmented small">
+        <button class="fitBtn active" data-fit="contain">Conter</button>
+        <button class="fitBtn" data-fit="cover">Cobrir</button>
+        <button class="fitBtn" data-fit="stretch">Esticar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom shutter bar -->
+  <div id="bottomBar">
+    <button id="thumbBtn" class="thumb" title="Última foto">
+      <img id="thumbImg" alt="">
+    </button>
+
+    <button id="shutterBtn" title="Capturar foto">
+      <span id="shutterInner"></span>
+    </button>
+
+    <div id="bottomSpacer"></div>
+  </div>
+
+  <!-- Gallery modal -->
+  <div id="galleryModal" class="hidden">
+    <div class="modalHeader">
+      <span>Fotos salvas neste dispositivo</span>
+      <button id="closeGalleryBtn" class="iconBtn">✕</button>
+    </div>
+    <div id="galleryGrid"></div>
+    <p id="galleryEmptyMsg" class="small hidden">Nenhuma foto ainda. Capture sua primeira foto!</p>
+  </div>
+
+  <!-- Full-size photo viewer -->
+  <div id="photoViewer" class="hidden">
+    <div class="modalHeader">
+      <span>Foto</span>
+      <button id="closeViewerBtn" class="iconBtn">✕</button>
+    </div>
+    <img id="viewerImg" alt="Foto capturada">
+    <div class="viewerActions">
+      <button id="downloadPhotoBtn" class="pillBtn">⬇ Salvar no dispositivo</button>
+      <button id="sharePhotoBtn" class="pillBtn hidden">↗ Compartilhar</button>
+      <button id="deletePhotoBtn" class="pillBtn danger">🗑 Excluir</button>
+    </div>
+  </div>
+
+  <div id="toast" class="hidden"></div>
+
+  <!-- Install prompt -->
+  <button id="installBtn" class="hidden pillBtn" title="Instalar aplicativo">⬇ Instalar app</button>
+
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
